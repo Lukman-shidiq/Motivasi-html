@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Motivasi & Lirik Keren</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+ <style>
+    body {
+    font-family: 'Poppins',sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+
+/* Background yang lebih bagus */
+background: linear-gradient(135deg, #3a1c71 0%, #d76d77 50%, #ffaf7b 100%); /* Gradien 3 warna */
+    position: relative; /* Untuk pseudo-element overlay */
+        }
+
+/* Overlay untuk efek visual tambahan */
+    body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3)/* Overlay gelap transparan */
+   backdrop-filter: blur(3px); /* Sedikit blur pada background */
+            z-index: -1; /* Pastikan di bawah konten */
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.1); /* Kontainer lebih transparan, warna terang */
+            border-radius: 15px;
+            padding: 25px 35px; /* Padding lebih kecil */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            max-width: 600px; /* Lebar maksimal diperkecil */
+            width: 90%; /* Responsif */
+            backdrop-filter: blur(10px); /* Efek blur yang lebih kuat pada kontainer */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff; /* Teks putih */
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif; /* Font lebih elegan untuk judul */
+            font-size: 2em; /* Ukuran judul diperkecil */
+            color: #fce47c; /* Warna emas/kuning cerah */
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            font-weight: 700;
+        }
+
+        /* Gaya untuk setiap baris lirik */
+        #lyrics-container p {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1em; /* Ukuran lirik diperkecil */
+            line-height: 1.5;
+            margin-bottom: 12px; /* Spasi antar baris */
+            font-weight: 400;
+            opacity: 0.7; /* Sedikit pudar saat tidak aktif */
+            transition: opacity 0.3s ease, color 0.3s ease, font-weight 0.3s ease, transform 0.3s ease; /* Transisi untuk highlight */
+        }
+
+        /* Gaya ketika baris lirik di-highlight */
+        #lyrics-container p.highlighted {
+            opacity: 1;
+            color: #b7e4f9; /* Warna highlight biru muda */
+            font-weight: 600;
+            text-shadow: 0 0 8px rgba(183, 228, 249, 0.7);
+            transform: scale(1.03); /* Sedikit membesar saat di-highlight */
+        }
+
+        /* Gaya untuk audio player */
+        audio {
+            width: 90%;
+            max-width: 400px; /* Ukuran audio player diperkecil */
+            margin-top: 30px;
+            border-radius: 50px;
+            background-color: rgba(255, 255, 255, 0.15); /* Background player transparan */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            outline: none;
+        }
+
+        /* Mengatur warna kontrol audio player di browser berbasis WebKit */
+        audio::-webkit-media-controls-panel {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        audio::-webkit-media-controls-play-button,
+        audio::-webkit-media-controls-timeline,
+        audio::-webkit-media-controls-volume-slider {
+            color: #fff;
+        }
+
+        /* Media queries untuk responsivitas di layar kecil */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px 25px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            #lyrics-container p {
+                font-size: 1em;
+            }
+            audio {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>MOTIVASI MU</h1>
+        <div id="lyrics-container">
+            <p id="line-1">Bukan terlalu mengejar dunia tapi perlu diingat</p>
+            <p id="line-2">tidak ada yang peduli dengan susahmu.</p>
+            <p id="line-3">Maka bertempurlah sehancur-hancurnya demi masa depanmu.</p>
+            <p id="line-4">Ingat nasi yang dimakan hari ini</p>
+            <p id="line-5">bukan padi yang ditanam kemarin.</p>
+        </div>
+
+        <audio id="motivationAudio" controls preload="auto">
+            <source src="tiktok.mp3" type="audio/mpeg">
+            Browser Anda tidak mendukung elemen audio.
+            <track kind="captions" src="lyrics.vtt" srclang="id" label="Bahasa Indonesia" default>
+        </audio>
+    </div>
+
+    <script>
+        const audio = document.getElementById('motivationAudio');
+        const lyricsContainer = document.getElementById('lyrics-container');
+        const lyricLines = lyricsContainer.querySelectorAll('p'); // Mengambil semua elemen <p> lirik
+
+        // Event listener yang akan berjalan setiap kali waktu audio berubah
+        audio.addEventListener('timeupdate', () => {
+            // Hapus highlight dari semua baris lirik terlebih dahulu
+            lyricLines.forEach(line => {
+                line.classList.remove('highlighted');
+            });
+
+            // Pastikan ada track teks (WebVTT) yang aktif
+            // textTracks[0] mengacu pada track pertama yang didefinisikan di <audio>
+            if (audio.textTracks && audio.textTracks[0] && audio.textTracks[0].mode === 'showing') {
+                const cues = audio.textTracks[0].activeCues; // Dapatkan "cues" (bagian lirik) yang sedang aktif
+
+                if (cues && cues.length > 0) {
+                    // Ambil cue yang pertama aktif (yang sedang dibacakan)
+                    const currentCue = cues[0];
+                    
+                    // Cari baris lirik yang cocok dengan ID cue, atau teks cue
+                    // Kita akan mencocokkan berdasarkan teks untuk kesederhanaan.
+                    // Pastikan teks di <p> sama persis dengan teks di file .vtt.
+                    lyricLines.forEach(line => {
+                        if (line.textContent.trim() === currentCue.text.trim()) {
+                            line.classList.add('highlighted'); // Tambahkan kelas 'highlighted'
+                        }
+                    });
+                }
+            }
+        });
+
+        // Event listener untuk mengatur ulang highlight saat audio selesai
+        audio.addEventListener('ended', () => {
+            lyricLines.forEach(line => {
+                line.classList.remove('highlighted');
+            });
+     });
+    </script>
+</body>
+</html>
